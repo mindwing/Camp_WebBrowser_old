@@ -5,12 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.EditText;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private EditText textUrl;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         textUrl = (EditText) findViewById(R.id.text_url);
+        textUrl.setText("http://google.com");
         textUrl.setOnKeyListener(new OnKeyListener() {
 
             @Override
@@ -30,11 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
                 switch (keyCode) {
                     case KeyEvent.KEYCODE_ENTER:
-                        Toast.makeText(
-                                MainActivity.this,
-                                textUrl.getText().toString() + ": "
-                                        + event.getAction(), Toast.LENGTH_SHORT)
-                                .show();
+                        webView.loadUrl(textUrl.getText().toString());
 
                         processed = true;
 
@@ -49,5 +48,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+        webView = (WebView) findViewById(R.id.webview);
+        webView.setWebViewClient(new WebViewClient());
     }
 }
